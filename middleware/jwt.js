@@ -12,7 +12,6 @@ exports.validateJWT = (req, res, next) => {
         return res.status(400).json({ message: "Invalid token" });
       }
 
-      console.log(decoded)
       req.body.userId = decoded._id;
     });
     console.log(req.body);

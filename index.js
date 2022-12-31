@@ -5,6 +5,7 @@ const port = 8000;
 const cors = require("cors");
 const db = require("./config/mongoose");
 const userRoutes = require('./routes/userRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
 app.use(
   cors({
     origin: "*"
@@ -16,6 +17,7 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 
 app.use('/user', userRoutes)
+app.use('/category', categoryRoutes)
 
 app.get("/", (req, res) => {
   res.send("<h1>Hey from Nodejs server</h1>");

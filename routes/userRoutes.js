@@ -7,9 +7,5 @@ const router = express.Router();
 router.post('/signup', signup)
 router.post('/signin', signin)
 
-router.get('/test', validateJWT, () => {
-  console.log('after middleware call')
-})
-
 
 module.exports = router;
