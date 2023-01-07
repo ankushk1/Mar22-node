@@ -14,7 +14,6 @@ exports.validateJWT = (req, res, next) => {
 
       req.body.userId = decoded._id;
     });
-    console.log(req.body);
     next();
   } catch (err) {
     return res.status(500).json({

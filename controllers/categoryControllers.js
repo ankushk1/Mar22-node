@@ -23,7 +23,7 @@ exports.createCategory = async (req, res) => {
 
 exports.getCategories = async (req, res) => {
   try {
-    const categories = await Category.find()
+    const categories = await Category.find({ isActive: true })
       .populate("created_by", "firstname email lastname")
       .populate("updated_by", "firstname email"); // null
 
@@ -88,10 +88,51 @@ exports.deleteCategory = async (req, res) => {
   }
 };
 
+exports.updateCategory = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedCategory = await Category.findByIdAndUpdate(id, {
+      $set: { ...req.body, updated_by: req.body.userId }
+    });
 
-//findByIdAndUpdate(id, {
-//   $set: {
+    if (!updatedCategory) {
+      return res
+        .status(400)
+        .json({ message: "Category updation failed/Invalid category" });
+    }
 
-//   }
-// })
-// You need to update the category by id
+    return res.status(200).json({ message: "Category Updated Successfully" });
+  } catch (err) {
+    return res.status(500).json({
+      error: err,
+      message: "Internal Server Error"
+    });
+  }
+};
+
+exports.deactivateCategory = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedCategory = await Category.findByIdAndUpdate(id, {
+      $set: {
+        isActive: false,
+        updated_by: req.body.userId 
+      }
+    });
+
+    if (!updatedCategory) {
+      return res
+        .status(400)
+        .json({ message: "Category deactivation failed/Invalid category" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Category Deactivated Successfully" });
+  } catch (err) {
+    return res.status(500).json({
+      error: err,
+      message: "Internal Server Error"
+    });
+  }
+};
