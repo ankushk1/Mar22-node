@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyparser = require("body-parser");
-const port = 8000;
+const port = process.env.PORT || 8000;
 const cors = require("cors");
 const db = require("./config/mongoose");
 const userRoutes = require('./routes/userRoutes');
@@ -60,6 +60,10 @@ app.get("/", (req, res) => {
 //   };
 //   res.json({ message: "Object updated successfully" });
 // });
+
+app.get('/', (req,res) => {
+  res.send("Node app running")
+})
 
 app.listen(port, () => {
   console.log("Server Running on 8000");
